@@ -1,0 +1,71 @@
+<div class="page">
+  <div class="container">
+    <mat-card class="login-card" elevation="3">
+      <h1 class="title">Employee Login</h1>
+
+      <form (ngSubmit)="handleSubmit()" #form="ngForm">
+        <!-- Username -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            name="username"
+            [(ngModel)]="username"
+            required
+            [disabled]="loading"
+            autocomplete="username"
+          />
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            [(ngModel)]="password"
+            required
+            [disabled]="loading"
+            autocomplete="current-password"
+          />
+
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="showPassword = !showPassword"
+            [disabled]="loading"
+          >
+            <mat-icon>
+              {{ showPassword ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- Error -->
+        <mat-card *ngIf="error" class="error">
+          {{ error }}
+        </mat-card>
+
+        <!-- Submit -->
+        <button
+          mat-raised-button
+          color="primary"
+          class="full-width submit"
+          type="submit"
+          [disabled]="loading || !form.valid"
+        >
+          {{ loading ? 'Logging in...' : 'Login' }}
+        </button>
+
+        <!-- Test credentials -->
+        <mat-card class="test-creds" appearance="outlined">
+          <p><strong>Test credentials:</strong></p>
+          <p>Username: <strong>hr1</strong></p>
+          <p>Password: <strong>password</strong></p>
+        </mat-card>
+      </form>
+    </mat-card>
+  </div>
+</div>

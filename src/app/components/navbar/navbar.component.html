@@ -1,7 +1,11 @@
-<mat-toolbar color="primary">
-  <span>HR Onboarding Portal</span>
-  <span class="spacer"></span>
-  <button mat-icon-button aria-label="menu">
-    <mat-icon>menu</mat-icon>
-  </button>
+
+<mat-toolbar class = 'container' color='primary'>
+  <span>HR</span>
+  <a mat-button routerLink='/'>Home</a>
+  <a mat-button routerLink='/employees'>Employees</a>
+  <a mat-button routerLink='/visa-management'>Visa</a>
+  <a mat-button routerLink='/hiring'>Hiring</a>
+  <a mat-button routerLink='/housing'>Housing</a>
+  <a class = 'logout' mat-button (click) = 'logout()'>Log Out</a>
+  
 </mat-toolbar>
