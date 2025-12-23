@@ -1,0 +1,44 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px; /* matches Container maxWidth="sm" */
+  padding: 16px;
+}
+
+.login-card {
+  padding: 32px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.full-width {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.submit {
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+.error {
+  margin-top: 16px;
+  padding: 12px;
+  background: #fdecea;
+  color: #b71c1c;
+}
+
+.test-creds {
+  margin-top: 24px;
+  padding: 16px;
+  background: #f5f5f5;
+}
