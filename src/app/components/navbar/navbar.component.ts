@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/guards/auth.service';
-import { Router } from '@angular/router';
+import * as AuthActions from '../../store/auth/auth.actions'
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  constructor(private auth: AuthService, private router: Router){}
+  constructor(private store: Store){}
 
   logout(){
-    this.auth.logout();
-    this.router.navigate(['/login'])
+    this.store.dispatch(AuthActions.logout())
   }
 
 }

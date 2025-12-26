@@ -9,6 +9,7 @@ import { HousingManagementComponent } from './pages/housing-management/housing-m
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { MainLayoutComponent } from './components/layout/main-layout/main-layout.component';
+import { LoginGuard } from './guards/login.service';
 
 const routes: Routes = [
   {
@@ -16,7 +17,7 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title: 'Login',
-    canActivate: [AuthGuard],
+    canActivate:[LoginGuard]
   },
 
   //        Protected Routes(User must be logged in)
@@ -25,7 +26,7 @@ const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', component: HomeComponent },
+      { path: 'home', component: HomeComponent },
       { path: 'employees', component: EmployeeProfilesComponent },
       { path: 'visa-management', component: VisaManagementComponent },
       { path: 'hiring', component: HiringManagementComponent },
@@ -33,7 +34,7 @@ const routes: Routes = [
     ],
   },
   //      Route trapping
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: 'home' },
 ];
 
 @NgModule({

@@ -43,9 +43,13 @@
           </button>
         </mat-form-field>
 
+        <!-- Loading -->
+         <mat-card *ngIf = "loading$ | async">
+          Logging in....
+         </mat-card>
         <!-- Error -->
-        <mat-card *ngIf="error" class="error">
-          {{ error }}
+        <mat-card *ngIf="error$ | async as err" class="error">
+          {{ err }}
         </mat-card>
 
         <!-- Submit -->
@@ -58,13 +62,6 @@
         >
           {{ loading ? 'Logging in...' : 'Login' }}
         </button>
-
-        <!-- Test credentials -->
-        <mat-card class="test-creds" appearance="outlined">
-          <p><strong>Test credentials:</strong></p>
-          <p>Username: <strong>hr1</strong></p>
-          <p>Password: <strong>password</strong></p>
-        </mat-card>
       </form>
     </mat-card>
   </div>
