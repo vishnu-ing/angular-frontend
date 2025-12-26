@@ -25,6 +25,13 @@
           <strong>Email:</strong>
           <span>{{ employee.email }}</span>
         </div>
+
+        <div class="detail-row">
+          <strong>Car:</strong>
+          <span>
+            {{ employee.car?.make }} {{ employee.car?.model }} ({{ employee.car?.color }})
+          </span>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>

@@ -13,4 +13,9 @@ export interface Employee {
   phone?: string;
   cellPhone?: string;
   email: string;
+  car?: {
+    make?: string,
+    model?: string,
+    color?: string,
+  };
 }
