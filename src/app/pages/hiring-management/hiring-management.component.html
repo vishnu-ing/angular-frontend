@@ -1,4 +1,36 @@
-<div class="page">
-  <h2>Hiring Management</h2>
-  <p>Placeholder for hiring pipelines and tasks.</p>
+<div class="hiring-dashboard">
+  
+  <app-registration-management></app-registration-management>
+  <br>
+  <h2>Employee Onboarding Management</h2>
+
+  <mat-tab-group animationDuration="0ms">
+    
+    <mat-tab label="Pending">
+      <app-hiring-table 
+        [users]="(pendingUsers$ | async) || []" 
+        status="Pending"
+        (view)="openApplication($event)"
+        (approve)="onApprove($event)"
+        (reject)="onReject($event)">
+      </app-hiring-table>
+    </mat-tab>
+
+    <mat-tab label="Approved">
+      <app-hiring-table 
+        [users]="(approvedUsers$ | async) || []" 
+        status="Approved"
+        (view)="openApplication($event)">
+      </app-hiring-table>
+    </mat-tab>
+
+    <mat-tab label="Rejected">
+      <app-hiring-table 
+        [users]="(rejectedUsers$ | async) || []" 
+        status="Rejected"
+        (view)="openApplication($event)">
+      </app-hiring-table>
+    </mat-tab>
+
+  </mat-tab-group>
 </div>

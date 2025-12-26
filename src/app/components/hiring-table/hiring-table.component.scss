@@ -1,0 +1,45 @@
+.mat-mdc-row, .mat-mdc-header-row {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+.mat-mdc-cell, .mat-mdc-header-cell {
+  display: flex;        
+  align-items: center;  
+  border-bottom: 1px solid #333; 
+}
+
+.mat-column-fullName {
+  flex: 1; 
+  padding-right: 10px;
+  overflow-wrap: break-word; 
+}
+
+.mat-column-email {
+  flex: 1; 
+  padding-right: 10px;
+  overflow-wrap: break-word;
+}
+
+.mat-column-viewOnly {
+  flex: 1; 
+  display: flex;
+  justify-content: flex-start; 
+}
+
+.mat-column-actions {
+  flex: 2; 
+}
+
+.action-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  .small-input {
+    font-size: 12px;
+    width: 200px; 
+    margin-bottom: -1.25em;
+  }
+}
+
