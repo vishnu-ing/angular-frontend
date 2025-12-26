@@ -9,15 +9,26 @@ import { HousingManagementComponent } from './pages/housing-management/housing-m
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { MainLayoutComponent } from './components/layout/main-layout/main-layout.component';
+import { EmployeeProfileDetailComponent } from './pages/employee-profile-detail/employee-profile-detail.component';
 import { LoginGuard } from './guards/login.service';
 
 const routes: Routes = [
+  {
+    path: 'employee-profiles',
+    component: EmployeeProfilesComponent,
+    title: 'Employee Profiles',
+  },
+  {
+    path: 'employee-profiles/:id',
+    component: EmployeeProfileDetailComponent,
+    title: 'Employee Profile',
+  },
   {
     //     User must be logged out
     path: 'login',
     component: LoginComponent,
     title: 'Login',
-    canActivate:[LoginGuard]
+    canActivate: [LoginGuard],
   },
 
   //        Protected Routes(User must be logged in)

@@ -1,0 +1,38 @@
+<div class="employee-detail-container">
+  <div *ngIf="employee$ | async as employee; else loading">
+    <mat-card class="detail-card">
+      <mat-card-header>
+        <mat-card-title>{{ employee.legalFullName }}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="detail-row">
+          <strong>SSN:</strong>
+          <span>{{ employee.ssn }}</span>
+        </div>
+
+        <div class="detail-row">
+          <strong>Work Authorization:</strong>
+          <span>{{ employee.workAuthorizationTitle }}</span>
+        </div>
+
+        <div class="detail-row">
+          <strong>Phone:</strong>
+          <span>{{ employee.phone }}</span>
+        </div>
+
+        <div class="detail-row">
+          <strong>Email:</strong>
+          <span>{{ employee.email }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <ng-template #loading>
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <p>Loading employee details...</p>
+    </div>
+  </ng-template>
+</div>

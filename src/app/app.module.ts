@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CommonModule } from '@angular/common';
 
 // NgRx
 import { StoreModule } from '@ngrx/store';
@@ -27,10 +29,14 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 import { authReducer } from './store/auth/auth.reducers';
 import { AuthInterceptor } from './interceptors';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffectsService } from './store/auth/auth.effects.service';
+import { employeeProfilesReducer } from './store/employee-profiles/employee-profiles.reducers';
+import { EmployeeProfilesEffectsService } from './store/employee-profiles/employee-profiles.effects.service';
+import { EmployeeProfileDetailComponent } from './pages/employee-profile-detail/employee-profile-detail.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +48,8 @@ import { AuthEffectsService } from './store/auth/auth.effects.service';
     HiringManagementComponent,
     HousingManagementComponent,
     MainLayoutComponent,
-    LoginComponent
+    LoginComponent,
+    EmployeeProfileDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,13 +62,19 @@ import { AuthEffectsService } from './store/auth/auth.effects.service';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTableModule,
     MatButtonModule,
-    StoreModule.forRoot({auth:authReducer}),
-    EffectsModule.forRoot([AuthEffectsService])
+    CommonModule,
+    MatProgressSpinnerModule,
+    StoreModule.forRoot({
+      auth: authReducer,
+      employeeProfiles: employeeProfilesReducer,
+    }),
+    EffectsModule.forRoot([AuthEffectsService, EmployeeProfilesEffectsService]),
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
