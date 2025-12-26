@@ -20,6 +20,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CommonModule } from '@angular/common';
 
 // NgRx
 import { StoreModule } from '@ngrx/store';
@@ -38,9 +40,17 @@ import { HiringReducer } from './store/reducers/hiring.reducer';
 import { HiringTableComponent } from './components/hiring-table/hiring-table.component';
 import { HiringEffects } from './store/effects/hiring.effects';
 import { RegistrationManagementComponent } from './components/registration-management/registration-management.component';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 import { authReducer } from './store/auth/auth.reducers';
 import { AuthInterceptor } from './interceptors';
 import { AuthEffectsService } from './store/auth/auth.effects.service';
+import { employeeProfilesReducer } from './store/employee-profiles/employee-profiles.reducers';
+import { EmployeeProfilesEffectsService } from './store/employee-profiles/employee-profiles.effects.service';
+import { EmployeeProfileDetailComponent } from './pages/employee-profile-detail/employee-profile-detail.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +65,7 @@ import { AuthEffectsService } from './store/auth/auth.effects.service';
     LoginComponent,
     HiringTableComponent,
     RegistrationManagementComponent
+    EmployeeProfileDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +78,7 @@ import { AuthEffectsService } from './store/auth/auth.effects.service';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTableModule,
     MatButtonModule,
     MatTabsModule,
     MatTableModule,
@@ -75,10 +87,17 @@ import { AuthEffectsService } from './store/auth/auth.effects.service';
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
     StoreModule.forFeature('hiring', HiringReducer),
     MatDividerModule
+    CommonModule,
+    MatProgressSpinnerModule,
+    StoreModule.forRoot({
+      auth: authReducer,
+      employeeProfiles: employeeProfilesReducer,
+    }),
+    EffectsModule.forRoot([AuthEffectsService, EmployeeProfilesEffectsService]),
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
