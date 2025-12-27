@@ -40,11 +40,6 @@ import { HiringReducer } from './store/reducers/hiring.reducer';
 import { HiringTableComponent } from './components/hiring-table/hiring-table.component';
 import { HiringEffects } from './store/effects/hiring.effects';
 import { RegistrationManagementComponent } from './components/registration-management/registration-management.component';
-import { FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
 import { authReducer } from './store/auth/auth.reducers';
 import { AuthInterceptor } from './interceptors';
 import { AuthEffectsService } from './store/auth/auth.effects.service';
@@ -64,7 +59,7 @@ import { EmployeeProfileDetailComponent } from './pages/employee-profile-detail/
     MainLayoutComponent,
     LoginComponent,
     HiringTableComponent,
-    RegistrationManagementComponent
+    RegistrationManagementComponent,
     EmployeeProfileDetailComponent,
   ],
   imports: [
@@ -82,18 +77,16 @@ import { EmployeeProfileDetailComponent } from './pages/employee-profile-detail/
     MatButtonModule,
     MatTabsModule,
     MatTableModule,
-    StoreModule.forRoot({auth:authReducer}),
-    EffectsModule.forRoot([HiringEffects,AuthEffectsService]),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
     StoreModule.forFeature('hiring', HiringReducer),
-    MatDividerModule
+    MatDividerModule,
     CommonModule,
     MatProgressSpinnerModule,
     StoreModule.forRoot({
       auth: authReducer,
       employeeProfiles: employeeProfilesReducer,
     }),
-    EffectsModule.forRoot([AuthEffectsService, EmployeeProfilesEffectsService]),
+    EffectsModule.forRoot([AuthEffectsService, EmployeeProfilesEffectsService, HiringEffects]),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
