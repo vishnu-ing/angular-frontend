@@ -12,4 +12,7 @@ export class ApiService {
   }
 
   // add post/put/delete helpers as needed
+  post<T>(path: string, body: any): Observable<T> {
+    return this.http.post<T>(`${environment.apiBaseUrl}/${path}`, body);
+  }
 }
