@@ -1,0 +1,111 @@
+<!-- housing-form.component.html -->
+<div class="housing-form">
+  <h2>Add New House</h2>
+
+  <form #houseForm="ngForm" (ngSubmit)="submit()">
+    <div>
+      <label>
+        Address:
+        <input [(ngModel)]="form.address" name="address" required />
+      </label>
+    </div>
+
+    <h3>Landlord Information</h3>
+    <div>
+      <label>
+        Full Name:
+        <input
+          [(ngModel)]="form.landlord.fullName"
+          name="landlordFullName"
+          required
+        />
+      </label>
+    </div>
+    <div>
+      <label>
+        Phone:
+        <input
+          [(ngModel)]="form.landlord.phone"
+          name="landlordPhone"
+          required
+        />
+      </label>
+    </div>
+    <div>
+      <label>
+        Email:
+        <input
+          [(ngModel)]="form.landlord.email"
+          name="landlordEmail"
+          required
+          type="email"
+        />
+      </label>
+    </div>
+
+    <h3>Facility Information</h3>
+    <div>
+      <label>
+        Beds:
+        <input
+          type="number"
+          [(ngModel)]="form.facility.beds"
+          name="beds"
+          min="0"
+          required
+        />
+      </label>
+    </div>
+    <div>
+      <label>
+        Mattresses:
+        <input
+          type="number"
+          [(ngModel)]="form.facility.mattresses"
+          name="mattresses"
+          min="0"
+          required
+        />
+      </label>
+    </div>
+    <div>
+      <label>
+        Tables:
+        <input
+          type="number"
+          [(ngModel)]="form.facility.tables"
+          name="tables"
+          min="0"
+          required
+        />
+      </label>
+    </div>
+    <div>
+      <label>
+        Chairs:
+        <input
+          type="number"
+          [(ngModel)]="form.facility.chairs"
+          name="chairs"
+          min="0"
+          required
+        />
+      </label>
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="submitting || !houseForm.valid"
+      style="background: #ccc; color: #333"
+      [ngClass]="{ disabled: submitting || !houseForm.valid }"
+    >
+      {{ submitting ? "Saving..." : "Save House" }}
+    </button>
+
+    <button type="button" (click)="goToHousing()" style="margin-left: 1rem">
+      Back to Housing List
+    </button>
+
+    <div *ngIf="error" class="error">{{ error }}</div>
+  </form>
+</div>

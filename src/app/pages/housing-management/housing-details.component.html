@@ -1,0 +1,232 @@
+<!-- Requested car info display block -->
+<div *ngIf="house && house.employees">
+  <!-- housing-details.component.html -->
+  <div class="housing-details">
+    <button (click)="router.navigate(['/housing'])">Back to list</button>
+
+    <div *ngIf="loadingHouse">Loading house details...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+    <!-- <pre *ngIf="!loadingHouse && house">{{ house | json }}</pre> -->
+
+    <ng-container *ngIf="house && !loadingHouse">
+      <h2>House: {{ house.address }}</h2>
+      <button (click)="showDeleteModal = true" class="btn-danger">
+        Delete House
+      </button>
+
+      <!-- Delete Confirmation Modal -->
+      <div *ngIf="showDeleteModal" class="modal-overlay">
+        <div class="modal-content">
+          <h3 class="modal-title">Delete House</h3>
+          <p>Are you sure you want to delete this house?</p>
+          <div class="modal-actions">
+            <button (click)="deleteHouse()" class="btn-danger">Yes</button>
+            <button (click)="showDeleteModal = false" class="btn-cancel">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+      <p>
+        <strong>Employee residents:</strong>
+        {{
+          house.employeeCount !== undefined && house.employeeCount !== null
+            ? house.employeeCount
+            : house.employees.length || 0
+        }}
+      </p>
+
+      <!-- Facility information -->
+      <div
+        *ngIf="house.facility"
+        class="facility-info-under-employees"
+        style="margin-bottom: 1rem"
+      >
+        <strong>Facility Information:</strong>
+        <ul class="facility-info-list" style="margin: 0; padding-left: 1.2em">
+          <li>Beds: {{ house.facility.beds }}</li>
+          <li>Mattresses: {{ house.facility.mattresses }}</li>
+          <li>Tables: {{ house.facility.tables }}</li>
+          <li>Chairs: {{ house.facility.chairs }}</li>
+        </ul>
+      </div>
+
+      <!-- Facility reports -->
+      <section>
+        <div *ngIf="reportsLoading">Loading facility reports...</div>
+        <div *ngIf="!reportsLoading && reports.length === 0">
+          No facility reports for this house.
+        </div>
+
+        <div *ngIf="!reportsLoading && reports.length > 0">
+          <div *ngFor="let report of reports" class="facility-report">
+            <h4>{{ report.title }}</h4>
+            <p>{{ report.description }}</p>
+            <p>
+              <strong>Status:</strong>
+              <ng-container *ngIf="currentUserIsHR">
+                <ng-container *ngIf="editingStatus[report.id]; else showStatus">
+                  <select [(ngModel)]="report.status">
+                    <option value="Open">Open</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Closed">Closed</option>
+                  </select>
+                  <button (click)="changeReportStatus(report)">Save</button>
+                  <button (click)="cancelEditStatus(report)">Cancel</button>
+                </ng-container>
+                <ng-template #showStatus>
+                  <span
+                    [ngClass]="{
+                      'status-open': report.status === 'Open',
+                      'status-in-progress': report.status === 'In Progress',
+                      'status-closed': report.status === 'Closed'
+                    }"
+                  >
+                    {{ report.status }}
+                  </span>
+                  <button (click)="startEditStatus(report)">Edit</button>
+                </ng-template>
+              </ng-container>
+              <ng-container *ngIf="!currentUserIsHR">
+                <span
+                  [ngClass]="{
+                    'status-open': report.status === 'Open',
+                    'status-in-progress': report.status === 'In Progress',
+                    'status-closed': report.status === 'Closed'
+                  }"
+                >
+                  {{ report.status }}
+                </span>
+              </ng-container>
+            </p>
+            <p>
+              <strong>Created by:</strong>
+              {{
+                report.reportedBy?.firstName || report.reportedBy?.lastName
+                  ? (report.reportedBy.firstName || "") +
+                    " " +
+                    (report.reportedBy.lastName || "")
+                  : report.reportedBy?.userName ||
+                    getCreatedByDisplay(report.reportedBy) ||
+                    "Unknown"
+              }}
+            </p>
+            <p>
+              <strong>Timestamp:</strong>
+              <ng-container *ngIf="report.updatedAt; else createdTs">
+                {{ report.updatedAt | date : "short" }}
+                <span style="font-size: 0.9em; color: #888">(updated)</span>
+              </ng-container>
+              <ng-template #createdTs>
+                {{ report.createdAt | date : "short" }}
+              </ng-template>
+            </p>
+            <div class="report-comments">
+              <h5>Comments</h5>
+              <div *ngIf="(report.comments || []).length === 0">
+                No comments yet.
+              </div>
+              <ul *ngIf="(report.comments || []).length > 0">
+                <li
+                  *ngFor="
+                    let c of report.comments || [];
+                    trackBy: trackByCommentId
+                  "
+                >
+                  <div *ngIf="!editingComment[c.id]">
+                    <p>{{ c.description }}</p>
+                    <small>
+                      <span *ngIf="c.createdBy">
+                        By: {{ getCreatedByDisplay(c.createdBy) }}
+                      </span>
+                      <span *ngIf="c.createdAt">
+                        &nbsp;·&nbsp;{{ c.createdAt | date : "short" }}
+                      </span>
+                      <span *ngIf="!c.createdAt">
+                        &nbsp;·&nbsp;<em>No timestamp</em>
+                      </span>
+                    </small>
+                    <!-- Show Edit button if current user is the author (by id or string match) -->
+                    <button
+                      *ngIf="isCommentHRAuthor(c)"
+                      (click)="startEditComment(c)"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                  <div *ngIf="editingComment[c.id]">
+                    <textarea [(ngModel)]="editCommentText[c.id]"></textarea>
+                    <button (click)="saveEditComment(report, c)">Save</button>
+                    <button (click)="cancelEditComment(c)">Cancel</button>
+                  </div>
+                </li>
+              </ul>
+
+              <!-- Add comment -->
+              <textarea
+                [(ngModel)]="newComment[report.id]"
+                placeholder="Add a comment..."
+              ></textarea>
+              <button (click)="addComment(report)">Add Comment</button>
+            </div>
+          </div>
+
+          <!-- Simple pagination -->
+          <div class="pagination">
+            <button
+              [disabled]="reportsPage === 1"
+              (click)="onPageChange(reportsPage - 1)"
+            >
+              Previous
+            </button>
+            <span>Page {{ reportsPage }}</span>
+            <button
+              [disabled]="reportsPage * reportsPageSize >= reportsTotal"
+              (click)="onPageChange(reportsPage + 1)"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Employee information -->
+      <section>
+        <h3>Employee Information</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Car Info</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let emp of house.employees || []"
+              (click)="goToEmployee(emp.id)"
+              style="cursor: pointer"
+            >
+              <td>{{ emp.firstName }} {{ emp.lastName }}</td>
+              <td>{{ emp.phone }}</td>
+              <td>{{ emp.email }}</td>
+              <td>
+                <ng-container
+                  *ngIf="
+                    emp.car && (emp.car.make || emp.car.model || emp.car.color);
+                    else noCarInfo
+                  "
+                >
+                  {{ emp.car.make }} {{ emp.car.model
+                  }}<span *ngIf="emp.car.color"> ({{ emp.car.color }})</span>
+                </ng-container>
+                <ng-template #noCarInfo>No car info</ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </ng-container>
+  </div>
+</div>

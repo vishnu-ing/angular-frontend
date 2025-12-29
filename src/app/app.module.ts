@@ -32,7 +32,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { EmployeeProfilesComponent } from './pages/employee-profiles/employee-profiles.component';
 import { VisaManagementComponent } from './pages/visa-management/visa-management.component';
 import { HiringManagementComponent } from './pages/hiring-management/hiring-management.component';
-import { HousingManagementComponent } from './pages/housing-management/housing-management.component';
 import { MainLayoutComponent } from './components/layout/main-layout/main-layout.component';
 import { LoginComponent } from './pages/login/login.component';
 
@@ -55,7 +54,6 @@ import { EmployeeProfileDetailComponent } from './pages/employee-profile-detail/
     EmployeeProfilesComponent,
     VisaManagementComponent,
     HiringManagementComponent,
-    HousingManagementComponent,
     MainLayoutComponent,
     LoginComponent,
     HiringTableComponent,
