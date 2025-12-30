@@ -9,6 +9,7 @@ import {
   FacilityReport,
   FacilityReportComment,
 } from '../pages/housing-management/housing.models';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class HousingService {
@@ -17,8 +18,8 @@ export class HousingService {
       status,
     });
   }
-  private baseUrl = '/api/housing';
-  private reportsUrl = '/api/facility-reports';
+  private baseUrl = `${environment.apiBaseUrl}/housing`;
+  private reportsUrl = `${environment.apiBaseUrl}/facility-reports`;
 
   constructor(private http: HttpClient) {}
 
