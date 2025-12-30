@@ -52,6 +52,7 @@ import { ShowInProgressOnlyComponent } from './components/visa-status/show-in-pr
 import { RouterModule } from '@angular/router';
 import { MatChipsModule } from '@angular/material/chips';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +76,7 @@ import { MatChipsModule } from '@angular/material/chips';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    MatListModule,
     MatToolbarModule,
     MatIconModule,
     MatDividerModule,

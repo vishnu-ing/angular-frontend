@@ -11,6 +11,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { MainLayoutComponent } from './components/layout/main-layout/main-layout.component';
 import { EmployeeProfileDetailComponent } from './pages/employee-profile-detail/employee-profile-detail.component';
 import { LoginGuard } from './guards/login.service';
+import { ShowAllApprovedComponent } from './components/visa-status/show-all-approved/show-all-approved/show-all-approved.component';
+import { ShowInProgressOnlyComponent } from './components/visa-status/show-in-progress-only/show-in-progress-only/show-in-progress-only.component';
 
 const routes: Routes = [
   {
@@ -39,7 +41,25 @@ const routes: Routes = [
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'employees', component: EmployeeProfilesComponent },
-      { path: 'visa-management', component: VisaManagementComponent },
+      {
+        path: 'visa-management',
+        component: VisaManagementComponent,
+        children: [
+          {
+            path:'',
+            pathMatch:'full',
+            redirectTo:'approved'
+          },
+          {
+            path: 'approved',
+            component: ShowAllApprovedComponent,
+          },
+          {
+            path: 'in-progress',
+            component: ShowInProgressOnlyComponent,
+          },
+        ],
+      },
       { path: 'hiring', component: HiringManagementComponent },
       {
         path: 'housing',
