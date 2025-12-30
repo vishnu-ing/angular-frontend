@@ -2,17 +2,19 @@
 <div *ngIf="house && house.employees">
   <!-- housing-details.component.html -->
   <div class="housing-details">
-    <button (click)="router.navigate(['/housing'])">Back to list</button>
+    <div class="details-header">
+      <button (click)="router.navigate(['/housing'])">Back to list</button>
+      <button (click)="showDeleteModal = true" class="btn-danger delete-btn">
+        Delete House
+      </button>
+    </div>
 
     <div *ngIf="loadingHouse">Loading house details...</div>
     <div *ngIf="error" class="error">{{ error }}</div>
     <!-- <pre *ngIf="!loadingHouse && house">{{ house | json }}</pre> -->
 
     <ng-container *ngIf="house && !loadingHouse">
-      <h2>House: {{ house.address }}</h2>
-      <button (click)="showDeleteModal = true" class="btn-danger">
-        Delete House
-      </button>
+      <h2 class="address-title">House: {{ house.address }}</h2>
 
       <!-- Delete Confirmation Modal -->
       <div *ngIf="showDeleteModal" class="modal-overlay">
@@ -27,7 +29,7 @@
           </div>
         </div>
       </div>
-      <p>
+      <p class="residents-info">
         <strong>Employee residents:</strong>
         {{
           house.employeeCount !== undefined && house.employeeCount !== null
@@ -39,16 +41,30 @@
       <!-- Facility information -->
       <div
         *ngIf="house.facility"
-        class="facility-info-under-employees"
+        class="facility-info-under-employees spaced-facility-info"
         style="margin-bottom: 1rem"
       >
-        <strong>Facility Information:</strong>
-        <ul class="facility-info-list" style="margin: 0; padding-left: 1.2em">
-          <li>Beds: {{ house.facility.beds }}</li>
-          <li>Mattresses: {{ house.facility.mattresses }}</li>
-          <li>Tables: {{ house.facility.tables }}</li>
-          <li>Chairs: {{ house.facility.chairs }}</li>
-        </ul>
+        <strong class="facility-info-title">Facility Information:</strong>
+        <div class="facility-info-list-numbers">
+          <div class="facility-info-row">
+            <span class="facility-info-amt">{{ house.facility.beds }}</span>
+            Beds
+          </div>
+          <div class="facility-info-row">
+            <span class="facility-info-amt">{{
+              house.facility.mattresses
+            }}</span>
+            Mattresses
+          </div>
+          <div class="facility-info-row">
+            <span class="facility-info-amt">{{ house.facility.tables }}</span>
+            Tables
+          </div>
+          <div class="facility-info-row">
+            <span class="facility-info-amt">{{ house.facility.chairs }}</span>
+            Chairs
+          </div>
+        </div>
       </div>
 
       <!-- Facility reports -->
@@ -66,13 +82,26 @@
               <strong>Status:</strong>
               <ng-container *ngIf="currentUserIsHR">
                 <ng-container *ngIf="editingStatus[report.id]; else showStatus">
-                  <select [(ngModel)]="report.status">
+                  <select
+                    class="modern-status-select"
+                    [(ngModel)]="report.status"
+                  >
                     <option value="Open">Open</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Closed">Closed</option>
                   </select>
-                  <button (click)="changeReportStatus(report)">Save</button>
-                  <button (click)="cancelEditStatus(report)">Cancel</button>
+                  <button
+                    class="modern-status-btn"
+                    (click)="changeReportStatus(report)"
+                  >
+                    Save
+                  </button>
+                  <button
+                    class="modern-status-btn cancel"
+                    (click)="cancelEditStatus(report)"
+                  >
+                    Cancel
+                  </button>
                 </ng-container>
                 <ng-template #showStatus>
                   <span
@@ -129,7 +158,7 @@
               <ul *ngIf="(report.comments || []).length > 0">
                 <li
                   *ngFor="
-                    let c of report.comments || [];
+                    let c of getPaginatedComments(report);
                     trackBy: trackByCommentId
                   "
                 >
@@ -146,7 +175,6 @@
                         &nbsp;·&nbsp;<em>No timestamp</em>
                       </span>
                     </small>
-                    <!-- Show Edit button if current user is the author (by id or string match) -->
                     <button
                       *ngIf="isCommentHRAuthor(c)"
                       (click)="startEditComment(c)"
@@ -161,6 +189,40 @@
                   </div>
                 </li>
               </ul>
+              <div
+                class="comment-pagination"
+                *ngIf="getCommentPageCount(report) > 1"
+              >
+                <button
+                  [disabled]="(commentPage[report.id] || 1) === 1"
+                  (click)="
+                    onCommentPageChange(
+                      report.id,
+                      (commentPage[report.id] || 1) - 1
+                    )
+                  "
+                >
+                  Previous
+                </button>
+                <span
+                  >Page {{ commentPage[report.id] || 1 }} of
+                  {{ getCommentPageCount(report) }}</span
+                >
+                <button
+                  [disabled]="
+                    (commentPage[report.id] || 1) ===
+                    getCommentPageCount(report)
+                  "
+                  (click)="
+                    onCommentPageChange(
+                      report.id,
+                      (commentPage[report.id] || 1) + 1
+                    )
+                  "
+                >
+                  Next
+                </button>
+              </div>
 
               <!-- Add comment -->
               <textarea
@@ -193,39 +255,57 @@
       <!-- Employee information -->
       <section>
         <h3>Employee Information</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th>Car Info</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let emp of house.employees || []"
-              (click)="goToEmployee(emp.id)"
-              style="cursor: pointer"
-            >
-              <td>{{ emp.firstName }} {{ emp.lastName }}</td>
-              <td>{{ emp.phone }}</td>
-              <td>{{ emp.email }}</td>
-              <td>
-                <ng-container
-                  *ngIf="
-                    emp.car && (emp.car.make || emp.car.model || emp.car.color);
-                    else noCarInfo
-                  "
-                >
-                  {{ emp.car.make }} {{ emp.car.model
-                  }}<span *ngIf="emp.car.color"> ({{ emp.car.color }})</span>
-                </ng-container>
-                <ng-template #noCarInfo>No car info</ng-template>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <ng-container
+          *ngIf="
+            house.employees && house.employees.length > 0;
+            else noResidents
+          "
+        >
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Car Info</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let emp of house.employees"
+                (click)="goToEmployee(emp)"
+                [class.clickable-row]="emp._id"
+                [class.disabled-row]="!emp._id"
+                [attr.title]="!emp._id ? 'No profile available' : null"
+                style="cursor: pointer"
+              >
+                <td>
+                  <span class="employee-link">
+                    {{ emp.firstName }} {{ emp.lastName }}
+                  </span>
+                </td>
+                <td>{{ emp.phone }}</td>
+                <td>{{ emp.email }}</td>
+                <td>
+                  <ng-container
+                    *ngIf="
+                      emp.car &&
+                        (emp.car.make || emp.car.model || emp.car.color);
+                      else noCarInfo
+                    "
+                  >
+                    {{ emp.car.make }} {{ emp.car.model
+                    }}<span *ngIf="emp.car.color"> ({{ emp.car.color }})</span>
+                  </ng-container>
+                  <ng-template #noCarInfo>No car info</ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-template #noResidents>
+          <div class="no-residents">No one lives here yet.</div>
+        </ng-template>
       </section>
     </ng-container>
   </div>

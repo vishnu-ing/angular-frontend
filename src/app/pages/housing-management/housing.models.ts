@@ -9,6 +9,7 @@ export interface Landlord {
 
 export interface Employee {
   id: string;
+  _id?: string; // Optional MongoDB id for compatibility
   name: string; // preferred or legal
   firstName?: string;
   lastName?: string;

@@ -6,6 +6,7 @@ import { HousingService } from '../../services/housing.service';
 @Component({
   selector: 'app-housing-form',
   templateUrl: './housing-form.component.html',
+  styleUrls: ['./housing-form.component.scss'],
 })
 export class HousingFormComponent {
   form = {
@@ -58,5 +59,12 @@ export class HousingFormComponent {
 
   goToHousing(): void {
     this.router.navigate(['/housing']);
+  }
+
+  clearIfZero(field: 'beds' | 'mattresses' | 'tables' | 'chairs'): void {
+    const value = this.form.facility[field];
+    if (Number(value) === 0) {
+      this.form.facility[field] = '' as any;
+    }
   }
 }

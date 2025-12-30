@@ -1,0 +1,120 @@
+.error-message {
+  color: #ff6b6b;
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+.housing-form {
+  background: #333;
+  border-radius: 10px;
+  padding: 32px 24px 24px 24px;
+  margin: 32px auto;
+  max-width: 600px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+}
+
+.housing-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.housing-form-header h2 {
+  margin: 0;
+  color: #fff;
+  font-weight: 600;
+}
+
+.housing-form-header .back-btn {
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.housing-form-header .back-btn:hover {
+  background: #7c3aed;
+}
+
+h2,
+h3 {
+  color: #fff;
+  font-weight: 600;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+label {
+  color: #eee;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 0;
+  width: 100%;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+button[type="submit"] {
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 12px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+button[type="submit"].disabled {
+  background: #555;
+  color: #bbb;
+  cursor: not-allowed;
+}
+button[type="submit"]:hover:not(.disabled) {
+  background: #5b21b6;
+  box-shadow: 0 4px 16px rgba(103, 58, 183, 0.18);
+}
+
+button[type="button"] {
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 1rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button[type="button"]:hover {
+  background: #222;
+}
+
+.error {
+  color: #ffb4b4;
+  background: #3a2323;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-top: 16px;
+}

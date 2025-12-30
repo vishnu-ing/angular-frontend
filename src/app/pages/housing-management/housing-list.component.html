@@ -1,12 +1,11 @@
 <!-- housing-list.component.html -->
-<div class="housing-list">
-  <h1>Housing Management</h1>
+<div class="housing-dashboard">
+  <h2 class="section-title">Housing Management</h2>
 
-  <button (click)="addHouse()">Add New House</button>
+  <button class="add-house-btn" (click)="addHouse()">Add New House</button>
 
   <div *ngIf="loading">Loading houses...</div>
   <div *ngIf="error" class="error">{{ error }}</div>
-
   <div *ngIf="!loading && !error && houses.length > 0">
     <div
       class="house-summary"
@@ -29,7 +28,5 @@
       </p>
     </div>
   </div>
-  <p *ngIf="!loading && !error && houses.length === 0">
-    No houses to display. (This is a placeholder message.)
-  </p>
+  <p *ngIf="!loading && !error && houses.length === 0">No houses to display.</p>
 </div>

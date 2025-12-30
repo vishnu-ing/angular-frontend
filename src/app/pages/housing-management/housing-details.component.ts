@@ -1,6 +1,8 @@
 // housing-details.component.ts
 // housing-details.component.ts
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Employee } from '../../interfaces/employee';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HousingService } from '../../services/housing.service';
 import {
@@ -12,13 +14,20 @@ import {
 @Component({
   selector: 'app-housing-details',
   templateUrl: './housing-details.component.html',
+  styleUrls: ['./housing-details.component.scss'],
 })
 export class HousingDetailsComponent implements OnInit {
   editingStatus: { [reportId: string]: boolean } = {};
   currentUserIsHR: boolean = false;
   showDeleteModal = false;
-  goToEmployee(empId: string): void {
-    this.router.navigate(['/employee', empId]);
+  goToEmployee(emp: { _id?: string }): void {
+    console.log('goToEmployee clicked:', emp);
+    if (emp && emp._id) {
+      console.log('Navigating to:', `/employee-profiles/${emp._id}`);
+      this.router.navigate([`/employee-profiles/${emp._id}`]);
+    } else {
+      console.log('No _id found for employee:', emp);
+    }
   }
   getCommentIds(report: FacilityReport): string[] {
     return (report.comments || []).map((c) => c.id);
@@ -116,11 +125,22 @@ export class HousingDetailsComponent implements OnInit {
 
   newComment: { [reportId: string]: string } = {};
 
+  commentPage: { [reportId: string]: number } = {};
+  commentPageSize = 3;
+
+  employeesFromStore: Employee[] = [];
+
   constructor(
     private route: ActivatedRoute,
     public router: Router, // Make router public for template access
-    private housingService: HousingService
-  ) {}
+    private housingService: HousingService,
+    private store: Store<{ employeeProfiles: any }>
+  ) {
+    // Subscribe to the global employee list
+    this.store.select('employeeProfiles').subscribe((state) => {
+      this.employeesFromStore = state.employees || [];
+    });
+  }
 
   ngOnInit(): void {
     // Determine if current user is HR
@@ -169,18 +189,34 @@ export class HousingDetailsComponent implements OnInit {
         // Debug: log raw residents from backend
         console.log('Raw residents from backend:', (house as any).residents);
         // Map backend residents to employees for template compatibility
-        console.log('Raw residents from backend:', (house as any).residents);
         const employees = Array.isArray((house as any).residents)
-          ? (house as any).residents.map((emp: any, idx: number) => ({
-              id: emp.id || emp.userName || idx.toString(),
-              firstName: emp.firstName || '',
-              lastName: emp.lastName || '',
-              phone: emp.cellPhone || emp.phone || '',
-              email: emp.email || '',
-              car: emp.car,
-              carInfo: emp.carInfo || '',
-              userName: emp.userName || '',
-            }))
+          ? (house as any).residents.map((emp: any, idx: number) => {
+              // Try to find a match in the global employee list
+              const match = this.employeesFromStore.find(
+                (e) =>
+                  e._id === emp._id ||
+                  e._id === emp.id ||
+                  e._id === emp.userName ||
+                  e.email === emp.email
+              );
+              // Always prefer phone, then cellPhone, then fallback
+              const phone = match
+                ? match.phone || match.cellPhone || 'No phone info'
+                : emp.phone || emp.cellPhone || 'No phone info';
+              return match
+                ? { ...match, phone }
+                : {
+                    id: emp.id || emp.userName || idx.toString(),
+                    _id: emp._id || emp.id || emp.userName, // fallback to id/userName for navigation
+                    firstName: emp.firstName || '',
+                    lastName: emp.lastName || '',
+                    phone,
+                    email: emp.email || '',
+                    car: emp.car,
+                    carInfo: emp.carInfo || '',
+                    userName: emp.userName || '',
+                  };
+            })
           : [];
         console.log('Mapped employees:', employees);
         // Map facilityInfo to facility for template compatibility
@@ -235,13 +271,19 @@ export class HousingDetailsComponent implements OnInit {
               createdAt: r.createdAt,
               updatedAt: r.updatedAt, // <-- Map updatedAt from backend
               comments: Array.isArray(r.comments)
-                ? r.comments.map((c: any, commentIdx: number) => ({
-                    id: c.id || c._id || `${reportIdx}_${commentIdx}`,
-                    description: c.description,
-                    createdBy: c.createdBy,
-                    createdAt: c.timestamp || c.createdAt || null,
-                    ...c,
-                  }))
+                ? r.comments.map((c: any, commentIdx: number) => {
+                    let commentId = c.id;
+                    if (!commentId && c._id) commentId = c._id;
+                    if (!commentId)
+                      commentId = `report${reportIdx}_comment${commentIdx}`;
+                    return {
+                      id: commentId,
+                      description: c.description,
+                      createdBy: c.createdBy,
+                      createdAt: c.timestamp || c.createdAt || null,
+                      ...c,
+                    };
+                  })
                 : [],
             }));
           this.reportsLoading = false;
@@ -271,6 +313,24 @@ export class HousingDetailsComponent implements OnInit {
         this.newComment[report.id] = '';
       },
     });
+  }
+
+  // Helper to get paginated comments for a report
+  getPaginatedComments(report: FacilityReport): FacilityReportComment[] {
+    const page = this.commentPage[report.id] || 1;
+    const startIdx = (page - 1) * this.commentPageSize;
+    const endIdx = startIdx + this.commentPageSize;
+    return (report.comments || []).slice(startIdx, endIdx);
+  }
+  // Helper to get total comment pages for a report
+  getCommentPageCount(report: FacilityReport): number {
+    return (
+      Math.ceil((report.comments?.length || 0) / this.commentPageSize) || 1
+    );
+  }
+  // Change comment page for a report
+  onCommentPageChange(reportId: string, page: number) {
+    this.commentPage[reportId] = page;
   }
 
   deleteHouse(): void {

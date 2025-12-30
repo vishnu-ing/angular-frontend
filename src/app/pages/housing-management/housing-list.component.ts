@@ -1,19 +1,26 @@
 // housing-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { HousingService } from '../../services/housing.service';
 import { HouseSummary } from './housing.models';
+import { loadEmployees } from '../../store/employee-profiles/employee-profiles.actions';
 
 @Component({
   selector: 'app-housing-list',
   templateUrl: './housing-list.component.html',
+  styleUrls: ['./housing-list.component.scss'],
 })
 export class HousingListComponent implements OnInit {
   houses: HouseSummary[] = [];
   loading = false;
   error: string | null = null;
 
-  constructor(private housingService: HousingService, private router: Router) {}
+  constructor(
+    private housingService: HousingService,
+    private router: Router,
+    private store: Store
+  ) {}
 
   ngOnInit(): void {
     console.log('DEBUG: HousingListComponent initialized');
@@ -43,6 +50,8 @@ export class HousingListComponent implements OnInit {
       alert('House ID is missing!');
       return;
     }
+    // Dispatch action to load global employee values
+    this.store.dispatch(loadEmployees());
     this.router.navigate(['/housing', id]);
   }
 
