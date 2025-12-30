@@ -1,3 +1,6 @@
+import { VisaDocument } from "./visa-document.model";
+
+
 export interface Employee {
   _id: string;
   firstName: string;
@@ -5,7 +8,7 @@ export interface Employee {
   middleName?: string;
   preferredName?: string;
   legalFullName?: string;
-  ssn: string;
+  ssn?: string;
   workAuthorizationTitle?: string;
   workAuthorization?: {
     title?: string;
@@ -20,4 +23,6 @@ export interface Employee {
     model?: string;
     color?: string;
   };
+  workAuth?: string;
+  VisaDocument?: VisaDocument[];
 }

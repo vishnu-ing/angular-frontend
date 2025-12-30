@@ -1,0 +1,51 @@
+<div>
+    <div style="display:flex; justify-content:center; margin:16px 0">
+        <button mat-raised-button color="primary" (click)="goToInProgress()">
+            View In Progress
+        </button>
+    </div>
+
+    <div style="display:flex; justify-content:center; margin-bottom:16px">
+        <mat-form-field appearance="fill" style="width:400px" floatLabel="always">
+            <mat-label>Search First/Last/Preferred Name</mat-label>
+            <input matInput #searchInput (input)="onSearch(searchInput.value)" />
+        </mat-form-field>
+    </div>
+
+    <div *ngIf="filteredEmployees$ | async as employees">
+        <div *ngFor="let emp of employees" style="display:flex; justify-content:center; margin-bottom:20px">
+            <mat-card style="width:500px; text-align:center">
+
+
+                <mat-card-header style="justify-content:center">
+                    <mat-card-title>
+                        {{ emp.firstName }} {{ emp.lastName }}
+                        <span *ngIf="emp.preferredName">
+                            ({{ emp.preferredName }})
+                        </span>
+                    </mat-card-title>
+                </mat-card-header>
+
+
+                <mat-card-content>
+                    <mat-list>
+                        <mat-list-item *ngFor="let visa of emp.VisaDocument" style="justify-content:center">
+                            {{ visa.type }} — Approved
+                            <div style = 'display:block'>
+                                <a *ngIf="visa.fileUrl" [href]="visa.fileUrl" target="_blank" rel="noopener noreferrer" style = 'color:black'>
+                                    Open
+                                </a>
+
+                                -
+                                <a *ngIf="visa.fileUrl" [href]="visa.fileUrl" download style = 'color:black'>
+                                    Download
+                                </a>
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-card-content>
+
+            </mat-card>
+        </div>
+    </div>
+</div>

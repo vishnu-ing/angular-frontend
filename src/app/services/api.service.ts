@@ -11,8 +11,23 @@ export class ApiService {
     return this.http.get<T>(`${environment.apiBaseUrl}/${path}`);
   }
 
-  // add post/put/delete helpers as needed
   post<T>(path: string, body: any): Observable<T> {
-    return this.http.post<T>(`${environment.apiBaseUrl}/${path}`, body);
+    return this.http.post<T>(
+      `${environment.apiBaseUrl}/${path}`,
+      body
+    );
+  }
+
+  patch<T>(path: string, body: any): Observable<T> {
+    return this.http.patch<T>(
+      `${environment.apiBaseUrl}/${path}`,
+      body
+    );
+  }
+
+  delete<T>(path: string): Observable<T> {
+    return this.http.delete<T>(
+      `${environment.apiBaseUrl}/${path}`
+    );
   }
 }

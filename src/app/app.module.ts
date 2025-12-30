@@ -22,7 +22,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatListModule } from '@angular/material/list';
+// Material modules for HR hiring
 // NgRx
 import { StoreModule } from '@ngrx/store';
 
@@ -45,6 +47,10 @@ import { AuthEffectsService } from './store/auth/auth.effects.service';
 import { employeeProfilesReducer } from './store/employee-profiles/employee-profiles.reducers';
 import { EmployeeProfilesEffectsService } from './store/employee-profiles/employee-profiles.effects.service';
 import { EmployeeProfileDetailComponent } from './pages/employee-profile-detail/employee-profile-detail.component';
+import { ShowAllApprovedComponent } from './components/visa-status/show-all-approved/show-all-approved/show-all-approved.component';
+import { ShowInProgressOnlyComponent } from './components/visa-status/show-in-progress-only/show-in-progress-only/show-in-progress-only.component';
+import { RouterModule } from '@angular/router';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -59,6 +65,10 @@ import { EmployeeProfileDetailComponent } from './pages/employee-profile-detail/
     HiringTableComponent,
     RegistrationManagementComponent,
     EmployeeProfileDetailComponent,
+    ShowAllApprovedComponent,
+    ShowInProgressOnlyComponent,
+    HiringTableComponent,
+    RegistrationManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +77,9 @@ import { EmployeeProfileDetailComponent } from './pages/employee-profile-detail/
     AppRoutingModule,
     MatToolbarModule,
     MatIconModule,
+    MatDividerModule,
+    MatChipsModule,
+    MatSnackBarModule,
     FormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -80,11 +93,20 @@ import { EmployeeProfileDetailComponent } from './pages/employee-profile-detail/
     MatDividerModule,
     CommonModule,
     MatProgressSpinnerModule,
+        MatDividerModule,
+    MatTabsModule,
+    MatTableModule,
     StoreModule.forRoot({
       auth: authReducer,
       employeeProfiles: employeeProfilesReducer,
     }),
-    EffectsModule.forRoot([AuthEffectsService, EmployeeProfilesEffectsService, HiringEffects]),
+    EffectsModule.forRoot([
+      HiringEffects,
+      AuthEffectsService,
+      EmployeeProfilesEffectsService,
+    ]),
+    StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    StoreModule.forFeature('hiring', HiringReducer),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

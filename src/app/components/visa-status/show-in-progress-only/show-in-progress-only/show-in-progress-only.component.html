@@ -1,0 +1,62 @@
+<div style="display:flex; justify-content:center; margin:16px 0">
+    <button mat-raised-button color="primary" (click)="goToShowAll()">
+        Show All Approved
+    </button>
+</div>
+<div *ngFor="let user of users" [ngStyle]="{display:'flex',justifyContent:'center'}">
+    <mat-card class="visa-card">
+        <mat-card-header>
+            <mat-card-title>
+                {{ user.firstName }} {{ user.lastName }}
+                <span *ngIf="user.preferredName">({{ user.preferredName }})</span>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <mat-list *ngIf="user.approvedVisas.length">
+                <mat-list-item *ngFor="let doc of user.approvedVisas">
+                    {{ doc.type }} — Approved
+                </mat-list-item>
+            </mat-list>
+
+            <div *ngIf="user.activeVisa?.kind === 'EXISTING'">
+                <p>
+                    <strong>{{ user.activeVisa.document.type }}</strong><br />
+                    Status: {{ user.activeVisa.document.status }}
+                </p>
+                <button mat-stroked-button (click)="open(user.activeVisa.document.fileUrl)">
+                    Open Document
+                </button>
+                <ng-container *ngIf="user.activeVisa.document.status === 'Pending'">
+                    <div class="action-row">
+                        <button mat-raised-button color="primary" (click)="selectApprove(user.activeVisa.document._id)">
+                            Approve
+                        </button>
+                        <button mat-raised-button color="warn" (click)="selectReject(user.activeVisa.document._id)">
+                            Reject
+                        </button>
+                    </div>
+                    <div *ngIf="actionMode[user.activeVisa.document._id] === 'APPROVE'">
+                        <button mat-raised-button color="primary"
+                            (click)="sendEmailAndApprove(user.activeVisa.document._id)">
+                            Send email for next step
+                        </button>
+                    </div>
+                    <div *ngIf="actionMode[user.activeVisa.document._id] === 'REJECT'">
+                        <textarea rows="4" placeholder="Enter rejection feedback"
+                            [(ngModel)]="feedback[user.activeVisa.document._id]"></textarea>
+                        <br />
+                        <button mat-raised-button color="warn" (click)="submitFeedback(user.activeVisa.document._id)">
+                            Submit Feedback
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+
+            <div *ngIf="user.activeVisa?.kind === 'MISSING'">
+                <strong>{{ user.activeVisa.type }}</strong><br />
+                Awaiting upload from employee
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
