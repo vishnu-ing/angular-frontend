@@ -41,7 +41,13 @@ const routes: Routes = [
       { path: 'employees', component: EmployeeProfilesComponent },
       { path: 'visa-management', component: VisaManagementComponent },
       { path: 'hiring', component: HiringManagementComponent },
-      { path: 'housing', component: HousingManagementComponent },
+      {
+        path: 'housing',
+        loadChildren: () =>
+          import('./pages/housing-management/housing-management.module').then(
+            (m) => m.HousingManagementModule
+          ),
+      },
     ],
   },
   //      Route trapping
