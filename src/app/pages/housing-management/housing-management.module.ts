@@ -3,6 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HousingRoutingModule } from './housing-routing.module';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { HousingManagementComponent } from './housing-management.component';
 import { HousingListComponent } from './housing-list.component';
@@ -16,7 +17,13 @@ import { HousingFormComponent } from './housing-form.component';
     HousingDetailsComponent,
     HousingFormComponent,
   ],
-  imports: [CommonModule, FormsModule, RouterModule, HousingRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    HousingRoutingModule,
+    MatTabsModule,
+  ],
   providers: [DatePipe],
 })
 export class HousingManagementModule {

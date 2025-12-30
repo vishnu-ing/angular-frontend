@@ -1,0 +1,56 @@
+.housing-dashboard {
+  background: #333;
+  border-radius: 10px;
+  padding: 32px 24px 24px 24px;
+  margin: 32px auto;
+  max-width: 1200px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+}
+
+.section-title {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.add-house-btn {
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.add-house-btn:hover {
+  background: #5b21b6;
+  box-shadow: 0 4px 16px rgba(103, 58, 183, 0.18);
+}
+
+.house-summary {
+  background: #222;
+  color: #eee;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.house-summary:hover {
+  box-shadow: 0 4px 16px rgba(103, 58, 183, 0.18);
+  background: #292929;
+}
+
+.error {
+  color: #ffb4b4;
+  background: #3a2323;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}

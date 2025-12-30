@@ -1,46 +1,68 @@
 <!-- housing-form.component.html -->
 <div class="housing-form">
-  <h2>Add New House</h2>
+  <div class="housing-form-header">
+    <h2>Add New House</h2>
+    <button
+      type="button"
+      class="back-btn"
+      (click)="goToHousing()"
+      style="margin-left: auto"
+    >
+      Back to Housing List
+    </button>
+  </div>
 
   <form #houseForm="ngForm" (ngSubmit)="submit()">
-    <div>
-      <label>
-        Address:
-        <input [(ngModel)]="form.address" name="address" required />
-      </label>
+    <div class="form-field">
+      <label for="address">Address:</label>
+      <input
+        id="address"
+        name="address"
+        type="text"
+        [(ngModel)]="form.address"
+        required
+      />
     </div>
 
     <h3>Landlord Information</h3>
-    <div>
-      <label>
-        Full Name:
-        <input
-          [(ngModel)]="form.landlord.fullName"
-          name="landlordFullName"
-          required
-        />
-      </label>
+
+    <div class="form-field">
+      <label for="landlordName">Full Name:</label>
+      <input
+        id="landlordName"
+        name="landlordName"
+        type="text"
+        [(ngModel)]="form.landlord.fullName"
+        required
+      />
     </div>
-    <div>
-      <label>
-        Phone:
-        <input
-          [(ngModel)]="form.landlord.phone"
-          name="landlordPhone"
-          required
-        />
-      </label>
+    <div class="form-field">
+      <label for="landlordPhone">Phone:</label>
+      <input
+        id="landlordPhone"
+        name="landlordPhone"
+        type="text"
+        [(ngModel)]="form.landlord.phone"
+        required
+      />
     </div>
-    <div>
-      <label>
-        Email:
-        <input
-          [(ngModel)]="form.landlord.email"
-          name="landlordEmail"
-          required
-          type="email"
-        />
-      </label>
+    <div class="form-field">
+      <label for="landlordEmail">Email:</label>
+      <input
+        id="landlordEmail"
+        name="landlordEmail"
+        type="email"
+        [(ngModel)]="form.landlord.email"
+        required
+        email
+        #emailModel="ngModel"
+      />
+      <div
+        class="error-message"
+        *ngIf="emailModel.invalid && emailModel.touched"
+      >
+        Please enter a valid email address.
+      </div>
     </div>
 
     <h3>Facility Information</h3>
@@ -53,6 +75,7 @@
           name="beds"
           min="0"
           required
+          (focus)="clearIfZero('beds')"
         />
       </label>
     </div>
@@ -65,6 +88,7 @@
           name="mattresses"
           min="0"
           required
+          (focus)="clearIfZero('mattresses')"
         />
       </label>
     </div>
@@ -77,6 +101,7 @@
           name="tables"
           min="0"
           required
+          (focus)="clearIfZero('tables')"
         />
       </label>
     </div>
@@ -89,6 +114,7 @@
           name="chairs"
           min="0"
           required
+          (focus)="clearIfZero('chairs')"
         />
       </label>
     </div>
@@ -96,15 +122,26 @@
     <button
       type="submit"
       [disabled]="submitting || !houseForm.valid"
-      style="background: #ccc; color: #333"
-      [ngClass]="{ disabled: submitting || !houseForm.valid }"
+      [ngClass]="{
+        disabled: submitting || !houseForm.valid,
+        ready: !submitting && houseForm.valid
+      }"
+      style="color: #fff"
     >
       {{ submitting ? "Saving..." : "Save House" }}
     </button>
-
-    <button type="button" (click)="goToHousing()" style="margin-left: 1rem">
-      Back to Housing List
-    </button>
+    <style>
+      button.ready {
+        background: #28a745 !important;
+        color: #fff !important;
+        border: none;
+      }
+      button.disabled {
+        background: #ccc !important;
+        color: #333 !important;
+        border: none;
+      }
+    </style>
 
     <div *ngIf="error" class="error">{{ error }}</div>
   </form>

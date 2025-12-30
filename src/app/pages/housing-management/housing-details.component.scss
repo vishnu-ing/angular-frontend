@@ -1,3 +1,416 @@
+// Employee info table link style
+.employee-link {
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
+tr.clickable-row {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+tr.clickable-row:hover {
+  background: #333;
+}
+tr.disabled-row {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.comment-pagination button {
+  margin-top: 6px;
+}
+.comment-pagination button,
+.comment-pagination span {
+  height: 44px;
+  line-height: 44px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.13rem;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+.housing-details .report-comments ul li {
+  border: 1.5px solid #444;
+  border-radius: 7px;
+  background: #232323;
+  margin-bottom: 12px;
+  padding: 12px 16px 8px 16px;
+  transition: box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+.housing-details .report-comments button[disabled] {
+  background: #888 !important;
+  color: #e5e5e5 !important;
+  cursor: not-allowed !important;
+  opacity: 0.55;
+  border: 1.5px solid #aaa !important;
+  box-shadow: none !important;
+  pointer-events: none;
+  filter: grayscale(0.5);
+}
+.modern-status-select {
+  background: #222;
+  color: #fff;
+  border: 1.5px solid #7c3aed;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  margin-right: 10px;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+.modern-status-select:focus {
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 2px #a78bfa44;
+}
+.modern-status-btn {
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+.facility-report .modern-status-btn:not(.cancel) {
+  background: #22c55e !important;
+}
+.facility-report .modern-status-btn:not(.cancel):hover {
+  background: #16a34a !important;
+}
+.facility-report .modern-status-btn.cancel {
+  background: #e53e3e !important;
+  color: #fff !important;
+}
+.facility-report .modern-status-btn.cancel:hover {
+  background: #c53030 !important;
+}
+.facility-info-title {
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.facility-info-list-numbers {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.facility-info-row {
+  display: flex;
+  align-items: center;
+  font-size: 1.08rem;
+  color: #eee;
+}
+.facility-info-amt {
+  font-weight: 700;
+  margin-right: 10px;
+  color: #fff;
+  min-width: 2.2em;
+  display: inline-block;
+  text-align: right;
+}
+.spaced-facility-info {
+  margin-top: 32px;
+}
+.residents-info {
+  margin-top: 45px;
+  font-size: 1.15rem;
+}
+.address-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 18px;
+}
+.no-residents {
+  color: #fff;
+  background: #444;
+  border-radius: 6px;
+  padding: 18px 0;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 12px;
+}
+.details-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.delete-btn {
+  margin-left: auto;
+}
+// Main container dark card style
+.housing-details {
+  background: #333;
+  border-radius: 10px;
+  padding: 32px 24px 24px 24px;
+  margin: 32px auto;
+  max-width: 800px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  color: #fff;
+  font-size: 1.18rem;
+}
+
+.housing-details h2,
+.housing-details h3,
+.housing-details h4,
+.housing-details h5 {
+  color: #fff;
+  font-weight: 600;
+}
+
+.housing-details button {
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 16px;
+  margin-right: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.housing-details button:hover {
+  background: #7c3aed;
+}
+
+.housing-details .btn-danger {
+  background: #e53e3e;
+  color: #fff;
+}
+
+.housing-details .btn-danger:hover {
+  background: #c53030;
+}
+
+.housing-details .btn-cancel {
+  background: #aaa;
+  color: #222;
+}
+
+.housing-details .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.housing-details .modal-content {
+  background: #222;
+  border-radius: 10px;
+  padding: 32px 24px;
+  color: #fff;
+  min-width: 320px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.housing-details .modal-title {
+  margin-top: 0;
+  color: #fff;
+}
+.housing-details .modal-content {
+  text-align: center;
+}
+
+.housing-details .modal-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 24px;
+  width: 100%;
+}
+.housing-details .modal-actions button {
+  min-width: 110px;
+}
+
+.housing-details .facility-info-list {
+  color: #eee;
+}
+
+.housing-details .facility-report {
+  background: #222;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 18px;
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.housing-details .status-open {
+  color: #fbbf24;
+}
+.housing-details .status-in-progress {
+  color: #3b82f6;
+}
+.housing-details .status-closed {
+  color: #10b981;
+}
+
+.housing-details .report-comments textarea {
+  width: 100%;
+  min-height: 60px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  display: block;
+}
+
+.housing-details table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+  background: #222;
+  color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.housing-details th,
+.housing-details td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #444;
+}
+
+.housing-details th {
+  background: #222;
+  color: #fff;
+  font-weight: 600;
+}
+
+.housing-details tr:last-child td {
+  border-bottom: none;
+}
+
+.housing-details .pagination {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-top: 18px;
+  justify-content: center;
+  .comment-pagination {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 12px;
+    height: 48px;
+  }
+  .comment-pagination button,
+  .comment-pagination span {
+    font-family: inherit;
+    font-size: 1.13rem;
+    font-weight: 600;
+    box-sizing: border-box;
+  }
+  .comment-pagination button {
+    height: 44px;
+    line-height: 44px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-family: inherit;
+    font-size: 1.13rem;
+    font-weight: 600;
+    background: #444;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+  }
+  .comment-pagination span {
+    height: 44px;
+    line-height: 44px;
+    min-width: 90px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+  .comment-pagination button {
+    height: 44px;
+    line-height: 44px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.13rem;
+    vertical-align: middle;
+    box-sizing: border-box;
+    margin: 0;
+  }
+  .comment-pagination span {
+    height: 44px;
+    line-height: 44px;
+    min-width: 90px;
+    text-align: center;
+    font-size: 1.13rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+  .comment-pagination button,
+  .comment-pagination span {
+    height: 44px;
+    line-height: 44px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.13rem;
+    vertical-align: middle;
+    box-sizing: border-box;
+    margin: 0;
+  }
+  .comment-pagination span {
+    flex: 0 0 auto;
+    min-width: 90px;
+    text-align: center;
+    font-size: 1.13rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    margin: 0 0.5em;
+  }
+}
+
+.housing-details .error {
+  color: #ff6b6b;
+  margin-bottom: 12px;
+}
 // Modal overlay styles
 .modal-overlay {
   position: fixed;
@@ -34,52 +447,40 @@ body.modal-open {
   font-weight: 600;
 }
 
-.modal-actions {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.btn-danger {
-  background: #d32f2f;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1.2rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-.btn-danger:hover {
-  background: #b71c1c;
-}
-
-.btn-cancel {
-  background: #e0e0e0;
-  color: #333;
-  border: none;
-  padding: 0.5rem 1.2rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-.btn-cancel:hover {
-  background: #bdbdbd;
-}
-/* Modal styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 1000;
+.comment-pagination {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 24px;
+  margin-top: 12px;
+  height: 48px;
+}
+.comment-pagination button {
+  height: 44px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-family: inherit;
+  font-size: 1.13rem;
+  font-weight: 600;
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+}
+.comment-pagination span {
+  min-width: 90px;
+  text-align: center;
+  font-size: 1.13rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0 0.5em;
+  height: 44px;
 }
 
 .modal-content {
@@ -98,7 +499,7 @@ body.modal-open {
 .modal-content .modal-actions {
   display: flex;
   gap: 1rem;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 2rem;
 }
 
