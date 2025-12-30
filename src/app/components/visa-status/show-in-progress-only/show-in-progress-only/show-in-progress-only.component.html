@@ -3,8 +3,8 @@
         Show All Approved
     </button>
 </div>
-<div *ngFor="let user of users" [ngStyle]="{display:'flex',justifyContent:'center'}">
-    <mat-card class="visa-card">
+<div *ngFor="let user of users" [ngStyle]="{display:'flex',justifyContent:'center', paddingBottom:'10px'}">
+    <mat-card class="visa-card" style="width:50vw; max-width:800px; min-width:320px ;text-align:center; display:flex; flex-direction:column; align-items:center;">
         <mat-card-header>
             <mat-card-title>
                 {{ user.firstName }} {{ user.lastName }}
