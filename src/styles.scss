@@ -1,4 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// 1. Define color palettes (adjust to your brand)
+$primary: mat.define-palette(mat.$purple-palette);
+$accent:  mat.define-palette(mat.$green-palette);
+
+// 2. Create a LIGHT theme
+$app-light-theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+  ),
+));
+
+// 3. Apply the theme to all components
+@include mat.all-component-themes($app-light-theme);
+
+// Make body background white and text black
+html, body {
+  background: #ffffff;
+  color: #000000;
+}
