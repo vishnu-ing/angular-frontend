@@ -5,7 +5,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { EmployeeProfilesComponent } from './pages/employee-profiles/employee-profiles.component';
 import { VisaManagementComponent } from './pages/visa-management/visa-management.component';
 import { HiringManagementComponent } from './pages/hiring-management/hiring-management.component';
-import { HousingManagementComponent } from './pages/housing-management/housing-management.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { MainLayoutComponent } from './components/layout/main-layout/main-layout.component';
@@ -15,16 +14,6 @@ import { ShowAllApprovedComponent } from './components/visa-status/show-all-appr
 import { ShowInProgressOnlyComponent } from './components/visa-status/show-in-progress-only/show-in-progress-only/show-in-progress-only.component';
 
 const routes: Routes = [
-  {
-    path: 'employee-profiles',
-    component: EmployeeProfilesComponent,
-    title: 'Employee Profiles',
-  },
-  {
-    path: 'employee-profiles/:id',
-    component: EmployeeProfileDetailComponent,
-    title: 'Employee Profile',
-  },
   {
     //     User must be logged out
     path: 'login',
@@ -61,6 +50,8 @@ const routes: Routes = [
         ],
       },
       { path: 'hiring', component: HiringManagementComponent },
+      { path: 'employee-profiles', component: EmployeeProfilesComponent },
+      { path: 'employee-profiles/:id', component: EmployeeProfileDetailComponent },
       {
         path: 'housing',
         loadChildren: () =>

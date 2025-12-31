@@ -4,15 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HousingRoutingModule } from './housing-routing.module';
 import { MatTabsModule } from '@angular/material/tabs';
-
-import { HousingManagementComponent } from './housing-management.component';
 import { HousingListComponent } from './housing-list.component';
 import { HousingDetailsComponent } from './housing-details.component';
 import { HousingFormComponent } from './housing-form.component';
 
 @NgModule({
   declarations: [
-    HousingManagementComponent,
     HousingListComponent,
     HousingDetailsComponent,
     HousingFormComponent,
